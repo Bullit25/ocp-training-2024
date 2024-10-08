@@ -1,0 +1,26 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: word-picker-options
+data:
+  custom_options.txt:  |
+    powerful
+    faded
+    limping
+    jelaous
+    auspicious
+    spiteful
+    competitive
+    tenuous
+    concerned
+    untidy
+    probable
+    towering
+    didactic
+    purring
+    panoramic
+    cheap
+    nutty
+    orange
+    debonair
+    combative
