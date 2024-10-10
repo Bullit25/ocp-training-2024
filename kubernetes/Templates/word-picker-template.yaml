@@ -10,10 +10,8 @@ parameters:
   description: Add the words to pick from here separated with whitespace.
   value: "alpha beta gamma delta epsilon"
 - name: REPLICAS
-  description: Number of replicas to run
+  description: Number of replicas to start for the word-picker app.
   value: "2"
-  required: true
-message: "... The GitHub webhook secret is ${GITHUB_WEBHOOK_SECRET} ..." 
 objects:
 - apiVersion: v1
   kind: ConfigMap
@@ -32,7 +30,7 @@ objects:
       app-postfix: ${APP_POSTFIX}
       component: word-picker
   spec:
-    replicas: "${{REPLICAS}}"
+    replicas: ${{REPLICAS}}
     selector:
       matchLabels:
         app: word-picker-${APP_POSTFIX}
@@ -74,3 +72,22 @@ objects:
     - port: 5000
       protocol: TCP
       targetPort: 5000
+- apiVersion: networking.k8s.io/v1
+  kind: NetworkPolicy
+  metadata:
+    name: word-picker-ingress-${APP_POSTFIX}
+    labels:
+      app: word-picker-${APP_POSTFIX}
+  spec:
+    podSelector:
+      matchLabels:
+        app: word-picker-${APP_POSTFIX}
+    policyTypes:
+    - Ingress
+    ingress:
+    - from:
+      - podSelector: {}
+    - from:
+      - namespaceSelector:
+          matchLabels:
+            network.openshift.io/policy-group: ingress
