@@ -1,0 +1,18 @@
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: allow-only-from-same-ns
+  namespace: word-picker-bc-lz
+spec:
+  podSelector:
+    matchLabels:
+      letter: b
+      app: word-picker
+  policyTypes:
+  - Ingress
+  ingress:
+  - from:
+    - podSelector:
+        matchLabels:
+          letter: b
+          app: word-picker
