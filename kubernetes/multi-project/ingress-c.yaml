@@ -1,0 +1,17 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  namespace: word-picker-bc-lz
+  name: word-picker-c
+spec:
+  rules:
+    - host: word-picker-c-lz.apps.bruno.ocp-training-gcp.yct.hu
+      http:
+        paths:
+        - path: /
+          pathType: Prefix
+          backend:
+            service:
+              name: word-picker-c
+              port:
+                number: 5000
